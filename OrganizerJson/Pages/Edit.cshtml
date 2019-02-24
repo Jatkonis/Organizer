@@ -1,0 +1,34 @@
+﻿@page "{eventId:int?}"
+@model EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Editing @Model.Event.ShortDescription </h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Event.Id" />
+    <div class="form-group">
+        <label asp-for="Event.Date">Date</label>
+        <input asp-for="Event.Date" class="form-control" />
+        <span class="text-danger" asp-validation-for="Event.Date"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Event.ShortDescription">Description</label>
+        <input asp-for="Event.ShortDescription" class="form-control" />
+        <span class="text-danger" asp-validation-for="Event.ShortDescription"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Event.LongDescription">Full Description</label>
+        <input asp-for="Event.LongDescription" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Event.Priority">Priority</label>
+        <select class="form-control" asp-for="Event.Priority" asp-items="Model.Priorities" >
+
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+

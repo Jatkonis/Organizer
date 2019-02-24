@@ -1,0 +1,37 @@
+﻿@page "{eventId:int?}"
+@model RemoveEventModel
+@{   
+}
+
+<h2>@Model.Event.ShortDescription</h2>
+
+<table class="table">
+    <tr>
+        <td><b>Event ID</b></td>
+        <td>@Model.Event.Id</td>
+    </tr>
+    <tr>
+        <td><b>Event Date</b></td>
+        <td>@Model.Event.Date.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <td><b>Short Description</b></td>
+        <td>@Model.Event.ShortDescription</td>
+    </tr>
+    <tr>
+        <td><b>Description</b></td>
+        <td>@Model.Event.LongDescription</td>
+    </tr>
+    <tr>
+        <td><b>Priority</b></td>
+        <td>@Model.Event.Priority</td>
+    </tr>
+</table>
+
+<h2>Are you sure want to delete this event?</h2>
+<form method="post">
+
+    <button type="submit" class="btn btn-primary" asp-route-eventId="@Model.Event.Id">Yes</button>
+
+    <a asp-page="./Events" class="btn btn-primary">No</a>
+</form>

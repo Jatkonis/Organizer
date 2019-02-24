@@ -1,0 +1,36 @@
+﻿@page "{eventId:int}"
+@model DetailsModel
+@{
+}
+
+<h2>@Model.Event.ShortDescription</h2>
+
+@if (Model.Message != null)
+{
+<div class="alert alert-info">@Model.Message</div>
+}
+
+<table class="table">
+    <tr>
+        <td><b>Event ID</b></td>
+        <td>@Model.Event.Id</td>
+    </tr>
+    <tr>
+        <td><b>Event Date</b></td>
+        <td>@Model.Event.Date.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <td><b>Short Description</b></td>
+        <td>@Model.Event.ShortDescription</td>
+    </tr>
+    <tr>
+        <td><b>Description</b></td>
+        <td>@Model.Event.LongDescription</td>
+    </tr>
+    <tr>
+        <td><b>Priority</b></td>
+        <td>@Model.Event.Priority</td>
+    </tr>
+</table>
+
+<a asp-page="./Events" class="btn btn-default">All Events</a>

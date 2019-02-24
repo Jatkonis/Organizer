@@ -1,0 +1,57 @@
+﻿@page
+@model EventsModel
+@{
+}
+
+<h2>Your Events</h2>
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<form method="get">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control" asp-for="SearchTerm" />
+            <span class="input-group-btn">
+                <button class="btn btn-default">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</form>
+
+
+<table class="table">
+    <tr>
+        <td><b>Date</b></td>
+        <td><b>Description</b></td>
+        <td><b>Priority</b></td>
+    </tr>
+    @foreach (var Event in Model.Events)
+    {
+        <tr>
+            <td>@Event.Date.ToShortDateString()</td>
+            <td>@Event.ShortDescription</td>
+            <td>@Event.Priority</td>
+            <td>
+                <a class="btn btn-lg" asp-page="./Details" asp-route-eventId="@Event.Id">
+                    <i class="glyphicon glyphicon-zoom-in"></i>
+                </a>
+            </td>
+
+            <td>
+                <a class="btn btn-lg" asp-page="./Edit" asp-route-eventId="@Event.Id">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+
+            <td>
+                <a class=" = btn btn-danger" asp-page="./RemoveEvent" asp-route-eventId="@Event.Id">Delete</a>
+            </td>
+
+        </tr>
+    }
+</table>
+<a asp-page="./Edit" class=" = btn btn-primary">Add new Event</a>
