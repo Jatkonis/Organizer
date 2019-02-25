@@ -12,6 +12,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace OrganizerJson
 {
+    // TODO: General
+    /*
+     * 1- Structure of the application:
+     *      - Separate business logic
+     *      - Separate view logic
+     *      - Separate infrastructure logic
+     *  2- Move items into separate folders:
+     *      - Models (business models - represent what you're doing here)
+     *      - ViewModels (view models - represent items in view)
+     *      - Services (business logic)
+     */ 
+
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -24,6 +37,7 @@ namespace OrganizerJson
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: from Dependency Injection -> what's the difference between Singleton, Transient, Scoped?
             services.AddSingleton<IEventData, JsonEventData>();
 
             services.Configure<CookiePolicyOptions>(options =>

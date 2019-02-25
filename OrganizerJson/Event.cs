@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrganizerJson
 {
+    // TODO: why partial?
     public partial class Event
     {
         public int Id { get; set; }
