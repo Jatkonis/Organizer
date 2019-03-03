@@ -8,37 +8,6 @@ using Organizer.Core.Services;
 
 namespace Organizer.Web
 {
-    /*
-     *  1- Structure of the application:
-     *      - Organizer.Web -> web project, responsible for displaying events, has triggers to create/update/delete
-     *          - EventViewModel -> view representation of Event
-     *          - EventMapper -> Mapper to map Event <-> EventViewModel
-     *          - All pages for viewing
-     *      - Organizer.Core -> separate project, which contains all logic and infrastructure code
-     *          - IEventDataStore -> Responsible for CRUD operations on events, but uses an injected repository to persist changes
-     *          - IEventRepository -> Handles read/write operations to JSON (and later - to SQL)
-     *          - Event -> your main domain model - the one that contains data
-     *      - Organizer.Core.UnitTests
-     *          - EventDataStoreTests -> tests to ensure the store does what its supposed to
-     *          - JsonEventRepositoryTests -> tests to ensure json file is being read/written properly
-     *      - Organizer.Web.UnitTests
-     *          - EventMapperTests -> tests to ensure mapping is being done correctly.
-     *
-     *      - What we achieve with doing above
-     *          - Single Responsibility Principle - each component does exactly what it says it does
-     *          - Testability - smaller components are much easier to test
-     *          - Open Closed principle - IEventDataStore component won't need to change when we introduce SQL repository
-     *          - Consistent project naming
-     *          - Separation of business logic from UI logic -> you can easily have a console app in this solution using IEventDataStore without having to duplicate anything
-     */
-
-    /*
-     * 1- Finish fixing compile errors.
-     * 2- Add/finish unit tests.
-     * 3- Make sure everything still works :)))
-     * 4- Fix ID bug.
-     */
-
     public class Startup
     {
         public Startup(IConfiguration configuration)

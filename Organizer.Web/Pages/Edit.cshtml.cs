@@ -20,9 +20,9 @@ namespace Organizer.Web.Pages
         public IEnumerable<SelectListItem> Priorities { get; set; }
 
 
-        public EditModel(IEventStore eventData, IHtmlHelper htmlHelper)
+        public EditModel(IEventStore eventStore, IHtmlHelper htmlHelper)
         {
-            _eventStore = eventData ?? throw new ArgumentNullException(nameof(eventData));
+            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             _htmlHelper = htmlHelper ?? throw new ArgumentNullException(nameof(htmlHelper));
         }
         public IActionResult OnGet(int? eventId)
@@ -62,7 +62,7 @@ namespace Organizer.Web.Pages
                 _eventStore.Add(EventMapper.MapFromViewModel(Event));
             }
             TempData["Message"] = "Events saved!";
-            return RedirectToPage("./Details", new { eventId = Event.Id });    
+            return RedirectToPage("./Events", new { eventId = Event.Id });    
         }
     }
 }

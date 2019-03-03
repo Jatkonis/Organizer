@@ -24,14 +24,21 @@ namespace Organizer.Web.Mappers
 
         public static EventViewModel MapToViewModel(Event @event)
         {
-            return new EventViewModel()
+            if (@event != null)
             {
-                Id = @event.Id,
-                ShortDescription = @event.ShortDescription,
-                LongDescription = @event.LongDescription,
-                Priority = @event.Priority,
-                Date = @event.Date
-            };
+                return new EventViewModel()
+                {
+                    Id = @event.Id,
+                    ShortDescription = @event.ShortDescription,
+                    LongDescription = @event.LongDescription,
+                    Priority = @event.Priority,
+                    Date = @event.Date
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,23 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Organizer.Core.Services;
+using Organizer.Web.Mappers;
 using Organizer.Web.ViewModels;
+using System;
 
 namespace Organizer.Web.Pages
 {
     public class RemoveEventModel : PageModel
     {
-           
-        public EventViewModel Event { get; set; }        
+        private readonly IEventStore _eventStore;           
+        public EventViewModel Event { get; set; }
 
-        private readonly IEventData eventData;
 
-        public RemoveEventModel(IEventData eventData)
+
+        public RemoveEventModel(IEventStore eventStore)
         {
-            this.eventData = eventData;
+            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
         }
+       
         public IActionResult OnGet(int eventId)
         {
-            Event = eventData.GetById(eventId);
+            var eventFromStore = _eventStore.GetById(eventId);
+            Event = EventMapper.MapToViewModel(eventFromStore);
             if (Event == null)
             {
                 return RedirectToPage("./NotFound");
@@ -27,7 +32,7 @@ namespace Organizer.Web.Pages
 
         public IActionResult OnPost(int eventId)
         {            
-            var eventt = eventData.Remove(eventId);
+            var @event = _eventStore.Remove(eventId);
             TempData["Message"] = "Event was deleted";
             return RedirectToPage("./Events");
         }

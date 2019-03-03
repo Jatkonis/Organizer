@@ -5,7 +5,7 @@ namespace Organizer.Core.Services
 {
     public interface IEventDataRepository
     {
-        void Write(List<Event> events);
-        List<Event> Read();
+        void WriteToJson(List<Event> events);
+        List<Event> ReadFromJson();
     }
 }

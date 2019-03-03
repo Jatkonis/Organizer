@@ -12,18 +12,20 @@ namespace Organizer.Core.Services
         {
             _dataRepository = dataRepository ?? throw new ArgumentNullException(nameof(dataRepository));
         }
-
+        
         public Event GetById(int id)
         {
-            // TODO: from Defensive Coding - is it possible the given ID is lower or less than 0? 
-            var events = _dataRepository.Read();
+            if (id <= 0) throw new ArgumentException("Invalid Event id");
+            
+            var events = _dataRepository.ReadFromJson();
             return events.SingleOrDefault(e => e.Id == id);
         }
 
         public IEnumerable<Event> GetEventByDescription(string shortDescription)
         {
-            // TODO: from Defensive Coding - is it possible the given shortDescription is null/empty string? What will happen if it is?
-            var events = _dataRepository.Read();
+            if (string.IsNullOrWhiteSpace(shortDescription)) throw new ArgumentException("Short description is required.");            
+
+            var events = _dataRepository.ReadFromJson();
             return from e in events
                    where string.IsNullOrEmpty(shortDescription) || e.ShortDescription.StartsWith(shortDescription)
                    orderby e.Date
@@ -32,47 +34,48 @@ namespace Organizer.Core.Services
 
         public Event Update(Event updatedEvent)
         {
-            // TODO: from Defensive Coding - can updatedEvent be null? If it can - what will happen?
-            var events = _dataRepository.Read();
+            if (updatedEvent == null) throw new ArgumentNullException(nameof(updatedEvent));
+
+            var events = _dataRepository.ReadFromJson();
             var @event = events.SingleOrDefault(e => e.Id == updatedEvent.Id);
             if (@event != null)
             {
                 @event.Date = updatedEvent.Date;
                 @event.ShortDescription = updatedEvent.ShortDescription;
-                @event.LongDescription = updatedEvent.LongDescription;
+                @event.LongDescription = updatedEvent.LongDescription;               
                 @event.Priority = updatedEvent.Priority;                
             }
 
-            _dataRepository.Write(events);
+            _dataRepository.WriteToJson(events);
             return @event;
         }
 
         public Event Add(Event newEvent)
         {
             if (newEvent == null) throw new ArgumentNullException(nameof(newEvent));
+            
+            var events = _dataRepository.ReadFromJson();
+            events.Add(newEvent);            
+            newEvent.Id = events.Max(e => e.Id) + 1;
+                  
 
-            // TODO: from Defensive Coding - can newEvent be null? If it can - what will happen?
-            var events = _dataRepository.Read();
-            events.Add(newEvent);
-            newEvent.Id = events.Max(e => e.Id) + 1; // BUG: when list is empty -> this crashes.
-
-            _dataRepository.Write(events);
+            _dataRepository.WriteToJson(events);
 
             return newEvent;
         }
 
         public Event Remove(int id)
         {
-            // TODO: from Defensive Coding - is it possible the given ID is lower or less than 0? 
+            if (id <= 0) throw new ArgumentException("Invalid Event id");
 
-            var events = _dataRepository.Read();
+            var events = _dataRepository.ReadFromJson();
             var @event = events.SingleOrDefault(e => e.Id == id);
             if (@event != null)
             {
                 events.Remove(@event);
             }
 
-            _dataRepository.Write(events);
+            _dataRepository.WriteToJson(events);
             return @event;
         }
     }

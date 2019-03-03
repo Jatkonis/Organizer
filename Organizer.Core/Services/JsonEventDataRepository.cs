@@ -16,13 +16,13 @@ namespace Organizer.Core.Services
             _path = Path.Combine(basePath, "datebase.json");
         }
 
-        public void Write(List<Event> events)
+        public void WriteToJson(List<Event> events)
         {
             var finalEventListInJson = JsonConvert.SerializeObject(events, Formatting.Indented);
             File.WriteAllText(_path, finalEventListInJson);
         }
 
-        public List<Event> Read()
+        public List<Event> ReadFromJson()
         {
             if (File.Exists(_path) == false)
             {

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Organizer.Core.Services;
+using Organizer.Web.Mappers;
 using Organizer.Web.ViewModels;
 
 namespace Organizer.Web.Pages
@@ -14,16 +16,22 @@ namespace Organizer.Web.Pages
         [BindProperty(SupportsGet =true)]
         public string SearchTerm { get; set; }
 
-        private readonly IEventData eventData;
+        private readonly IEventStore _eventStore;
 
-        public EventsModel(IEventData eventData)
+        public EventsModel(IEventStore eventStore)
         {
-            this.eventData = eventData;
+            _eventStore = eventStore;
         }
 
         public void OnGet()
         {
-            Events = eventData.GetEventByDescription(SearchTerm);
+            var eventsFromStore = _eventStore.GetEventByDescription(SearchTerm);
+            var result = new List<EventViewModel>();
+            foreach (var @event in eventsFromStore)
+            {
+                result.Add(EventMapper.MapToViewModel(@event));
+            }
+            Events = result;
         }
     }
 }

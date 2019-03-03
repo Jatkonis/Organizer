@@ -8,7 +8,7 @@ namespace Organizer.Web.Pages
         public string Message { get; set; }
         public void OnGet()
         {
-            Message = "Welcome to OrganizerJson";
+            Message = "Welcome to Organizer";
             HelloUrl = "https://i.redd.it/50mx8dvaxst01.png";
         }
     }
