@@ -1,15 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Organizer.Core.Services;
+using System;
 
 namespace Organizer.Web.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly IUserLoginStatus _userLoginStatus;
+
         public string HelloUrl { get; set; }
         public string Message { get; set; }
-        public void OnGet()
+
+        public IndexModel(IUserLoginStatus userLoginStatus)
         {
-            Message = "Welcome to Organizer";
-            HelloUrl = "https://i.redd.it/50mx8dvaxst01.png";
+            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus)); ;
+        }
+
+        public void OnGet()
+        {            
+            Message = "Welcome to Organizer";           
         }
     }
 }

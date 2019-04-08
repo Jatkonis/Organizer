@@ -7,8 +7,8 @@ namespace Organizer.Core.Services
     {
         IEnumerable<Event> GetEventByDescription(string shortDescription);
         Event GetById(int id);
-        Event Update(Event updatedEvent);
-        Event Add(Event newEvent);
-        Event Remove(int id);
+        void Update(Event updatedEvent);
+        void Add(Event newEvent);
+        void Remove(int id);
     }
 }

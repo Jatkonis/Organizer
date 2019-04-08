@@ -12,12 +12,13 @@ namespace Organizer.Web.Pages
         private readonly IEventStore _eventStore;
 
         public EventViewModel Event { get; set; }
+
         [TempData]
         public string Message { get; set; }
 
         public DetailsModel(IEventStore eventStore)
         {
-            _eventStore = eventStore;
+            _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore)); ;
         }
         public IActionResult OnGet(int eventId)
         {

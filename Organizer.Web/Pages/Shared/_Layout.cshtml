@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Organizer.Core.Services
+@inject IUserLoginStatus userLoginStatus
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -29,9 +32,22 @@
                 <a asp-page="/Index" class="navbar-brand">OrganizerJson</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-page="/Events">Events</a></li>
-                </ul>
+                @if (userLoginStatus.GetLogedInUserId() == 0)
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="glyphicon glyphicon-user" asp-page="/Signup">SignUp</a></li>
+                        <li><a class="glyphicon glyphicon-log-in" asp-page="/Login">Login</a></li>
+                    </ul>
+                }
+                else
+                { 
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a class="nav navbar-nav " asp-page="/Events">Events</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                            <li><a class="glyphicon glyphicon-log-out" asp-page="/LogOut">LogOut</a></li>
+                    </ul>
+                }
             </div>
         </div>
     </nav>

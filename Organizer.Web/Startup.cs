@@ -2,27 +2,31 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Organizer.Core.Services;
 
-namespace Organizer.Web
+namespace Organizer.Web 
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        }        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: from Dependency Injection -> what's the difference between Singleton, Transient, Scoped?
-            services.AddSingleton<IEventStore, EventStore>();
-            services.AddSingleton<IEventDataRepository, JsonEventDataRepository>();
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));           
+            services.AddTransient<IEventStore, EventStore>();
+            services.AddTransient<IEventRepositories, EventSqlRepository>();
+            services.AddTransient<IUserRepositories, UserSqlRepository>();
+            services.AddTransient<IUserAuthentication, UserAuthentication>();
+            services.AddSingleton<IUserLoginStatus, UserLoginStatus>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -49,7 +53,7 @@ namespace Organizer.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             app.UseMvc();
         }

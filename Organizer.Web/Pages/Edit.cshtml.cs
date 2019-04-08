@@ -14,29 +14,29 @@ namespace Organizer.Web.Pages
     {
         private readonly IEventStore _eventStore;
         private readonly IHtmlHelper _htmlHelper;
+        private readonly IUserLoginStatus _userLoginStatus;
 
         [BindProperty]
         public EventViewModel Event { get; set; }
         public IEnumerable<SelectListItem> Priorities { get; set; }
 
 
-        public EditModel(IEventStore eventStore, IHtmlHelper htmlHelper)
+        public EditModel(IEventStore eventStore, IHtmlHelper htmlHelper, IUserLoginStatus userLoginStatus)
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
             _htmlHelper = htmlHelper ?? throw new ArgumentNullException(nameof(htmlHelper));
+            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus));
         }
         public IActionResult OnGet(int? eventId)
         {
             Priorities = _htmlHelper.GetEnumSelectList<PriorityType>();
+
             if (eventId.HasValue)
             {
                 var eventFromStore = _eventStore.GetById(eventId.Value);
                 Event = EventMapper.MapToViewModel(eventFromStore);
             }
-            else
-            {
-                Event = new EventViewModel();
-            }
+            Event = new EventViewModel();            
             
             if (Event == null)
             {
@@ -51,16 +51,14 @@ namespace Organizer.Web.Pages
             {
                 Priorities = _htmlHelper.GetEnumSelectList<PriorityType>();
                 return Page();
-
             }
+            Event.UserId = _userLoginStatus.GetLogedInUserId();
+
             if (Event.Id > 0)
-            {
+            {                
                 _eventStore.Update(EventMapper.MapFromViewModel(Event));
             }
-            else
-            {
-                _eventStore.Add(EventMapper.MapFromViewModel(Event));
-            }
+            _eventStore.Add(EventMapper.MapFromViewModel(Event));
             TempData["Message"] = "Events saved!";
             return RedirectToPage("./Events", new { eventId = Event.Id });    
         }

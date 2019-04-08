@@ -1,0 +1,28 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2 class="right">Login</h2>
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<form method="post">
+
+    <div class="from-group">
+        <label asp-for="user.Login">Login name</label>
+        <input asp-for="user.Login" class="form-control" />
+        <span class="text-danger" asp-validation-for="user.Login"></span>
+    </div>
+    <div class="from-group">
+        <label asp-for="user.Password">Password</label>
+        <input type="password" asp-for="user.Password" class="form-control" />
+        <span class="text-danger" asp-validation-for="user.Password"></span>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Login</button>    
+</form>

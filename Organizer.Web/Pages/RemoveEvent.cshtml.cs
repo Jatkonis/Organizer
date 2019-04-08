@@ -12,8 +12,6 @@ namespace Organizer.Web.Pages
         private readonly IEventStore _eventStore;           
         public EventViewModel Event { get; set; }
 
-
-
         public RemoveEventModel(IEventStore eventStore)
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore));
@@ -32,7 +30,7 @@ namespace Organizer.Web.Pages
 
         public IActionResult OnPost(int eventId)
         {            
-            var @event = _eventStore.Remove(eventId);
+            _eventStore.Remove(eventId);
             TempData["Message"] = "Event was deleted";
             return RedirectToPage("./Events");
         }

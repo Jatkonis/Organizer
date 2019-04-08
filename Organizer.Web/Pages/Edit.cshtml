@@ -9,6 +9,7 @@
 <form method="post">
 
     <input type="hidden" asp-for="Event.Id" />
+
     <div class="form-group">
         <label asp-for="Event.Date">Date</label>
         <input asp-for="Event.Date" class="form-control" />
@@ -25,9 +26,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Event.Priority">Priority</label>
-        <select class="form-control" asp-for="Event.Priority" asp-items="Model.Priorities" >
-
-        </select>
+        <select class="form-control" asp-for="Event.Priority" asp-items="Model.Priorities"></select>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

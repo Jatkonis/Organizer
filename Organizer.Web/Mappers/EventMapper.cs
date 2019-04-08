@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Organizer.Core.Models;
+﻿using Organizer.Core.Models;
 using Organizer.Web.ViewModels;
 
 namespace Organizer.Web.Mappers
 {
     public class EventMapper
     {
-        // TODO: convert to EXTENSION METHODS.
         public static Event MapFromViewModel(EventViewModel viewModel)
         {
             return new Event()
             {
-                Id = viewModel.Id,
+                EventId = viewModel.Id,
                 ShortDescription = viewModel.ShortDescription,
                 LongDescription = viewModel.LongDescription,
                 Priority = viewModel.Priority,
-                Date = viewModel.Date
+                Date = viewModel.Date,
+                UserId = viewModel.UserId
             };
         }
 
@@ -28,17 +24,15 @@ namespace Organizer.Web.Mappers
             {
                 return new EventViewModel()
                 {
-                    Id = @event.Id,
+                    Id = @event.EventId,
                     ShortDescription = @event.ShortDescription,
                     LongDescription = @event.LongDescription,
                     Priority = @event.Priority,
-                    Date = @event.Date
+                    Date = @event.Date,
+                    UserId = @event.UserId
                 };
             }
-            else
-            {
-                return null;
-            }
+            return null;            
         }
     }
 }
