@@ -1,9 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Organizer.Core.Services;
 using Organizer.Web.Mappers;
 using Organizer.Web.ViewModels;
+using System;
 
 namespace Organizer.Web.Pages
 {
@@ -20,14 +20,16 @@ namespace Organizer.Web.Pages
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore)); ;
         }
+
         public IActionResult OnGet(int eventId)
         {
             var eventFromStore = _eventStore.GetById(eventId);
-            Event = EventMapper.MapToViewModel(eventFromStore);
-            if (Event == null)
+            if (eventFromStore == null)
             {
                 return RedirectToPage("./NotFound");
             }
+
+            Event = EventMapper.MapToViewModel(eventFromStore);
             return Page();
         }
     }

@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Organizer.Core.Services;
+using Organizer.Data;
 
-namespace Organizer.Core.Migrations
+namespace Organizer.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190411073512_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -27,15 +29,20 @@ namespace Organizer.Core.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("LongDescription");
+                    b.Property<string>("LongDescription")
+                        .HasMaxLength(200);
 
                     b.Property<int>("Priority");
 
-                    b.Property<string>("ShortDescription");
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<int>("UserId");
 
                     b.HasKey("EventId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Events");
                 });
@@ -46,21 +53,35 @@ namespace Organizer.Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Login");
+                    b.Property<string>("LastName")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Login")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Name")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Phone");
+                    b.Property<string>("Password")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Surename");
+                    b.Property<string>("Phone")
+                        .HasMaxLength(30);
 
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Organizer.Core.Models.Event", b =>
+                {
+                    b.HasOne("Organizer.Core.Models.User")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -11,7 +11,7 @@ namespace Organizer.Web.ViewModels
         [Required(ErrorMessage = "Date field is required.")]
         public DateTime Date { get; set; } = DateTime.Now;
 
-        [Required(ErrorMessage = "Short Desciption field is required.")]
+        [Required(ErrorMessage = "Short Description field is required.")]
         [StringLength(50)]
         public string ShortDescription { get; set; }
 

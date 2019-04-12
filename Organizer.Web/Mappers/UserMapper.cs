@@ -1,4 +1,5 @@
-﻿using Organizer.Core.Models;
+﻿using System;
+using Organizer.Core.Models;
 using Organizer.Web.ViewModels;
 
 namespace Organizer.Web.Mappers
@@ -7,13 +8,14 @@ namespace Organizer.Web.Mappers
     {
         public static User MapFromViewModelUser(UserViewModel viewModelUser)
         {
+            if (viewModelUser == null) throw new ArgumentNullException(nameof(viewModelUser));
+
             return new User()
             {
-                UserId = viewModelUser.UserId,
                 Login = viewModelUser.Login,
                 Password = viewModelUser.Password,
                 Name = viewModelUser.Name,
-                Surename = viewModelUser.Surename,
+                LastName = viewModelUser.LastName,
                 Email = viewModelUser.Email,
                 Phone = viewModelUser.Phone
             };
@@ -21,20 +23,17 @@ namespace Organizer.Web.Mappers
 
         public static UserViewModel MapToViewModelUser(User user)
         {
-            if (user != null)
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+            return new UserViewModel()
             {
-                return new UserViewModel()
-                {
-                    UserId = user.UserId,
-                    Login = user.Login,
-                    Password = user.Password,
-                    Name = user.Name,
-                    Surename = user.Surename,
-                    Email = user.Email,
-                    Phone = user.Phone
-                };
-            }
-            return null;            
+                Login = user.Login,
+                Password = user.Password,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                Phone = user.Phone
+            };
         }
     }
 }

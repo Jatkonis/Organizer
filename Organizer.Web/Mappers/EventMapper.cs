@@ -1,4 +1,5 @@
-﻿using Organizer.Core.Models;
+﻿using System;
+using Organizer.Core.Models;
 using Organizer.Web.ViewModels;
 
 namespace Organizer.Web.Mappers
@@ -7,6 +8,8 @@ namespace Organizer.Web.Mappers
     {
         public static Event MapFromViewModel(EventViewModel viewModel)
         {
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
             return new Event()
             {
                 EventId = viewModel.Id,
@@ -20,19 +23,17 @@ namespace Organizer.Web.Mappers
 
         public static EventViewModel MapToViewModel(Event @event)
         {
-            if (@event != null)
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+
+            return new EventViewModel()
             {
-                return new EventViewModel()
-                {
-                    Id = @event.EventId,
-                    ShortDescription = @event.ShortDescription,
-                    LongDescription = @event.LongDescription,
-                    Priority = @event.Priority,
-                    Date = @event.Date,
-                    UserId = @event.UserId
-                };
-            }
-            return null;            
+                Id = @event.EventId,
+                ShortDescription = @event.ShortDescription,
+                LongDescription = @event.LongDescription,
+                Priority = @event.Priority,
+                Date = @event.Date,
+                UserId = @event.UserId
+            };
         }
     }
 }

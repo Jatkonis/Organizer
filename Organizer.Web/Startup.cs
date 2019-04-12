@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Organizer.Core.Services;
+using Organizer.Core.Services.Implementation;
+using Organizer.Data;
 
 namespace Organizer.Web 
 {
@@ -23,14 +25,14 @@ namespace Organizer.Web
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));           
             services.AddTransient<IEventStore, EventStore>();
-            services.AddTransient<IEventRepositories, EventSqlRepository>();
-            services.AddTransient<IUserRepositories, UserSqlRepository>();
-            services.AddTransient<IUserAuthentication, UserAuthentication>();
-            services.AddSingleton<IUserLoginStatus, UserLoginStatus>();
+            services.AddSingleton<IEventRepository, EventLocalRepository>();
+            services.AddTransient<IUserRepository, UserLocalRepository>();
+            services.AddTransient<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddSingleton<IUserLoginStatusService, UserLoginStatusService>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                // This lambda determines whether UserDetails consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });

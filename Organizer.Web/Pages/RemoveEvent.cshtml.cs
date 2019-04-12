@@ -20,17 +20,19 @@ namespace Organizer.Web.Pages
         public IActionResult OnGet(int eventId)
         {
             var eventFromStore = _eventStore.GetById(eventId);
-            Event = EventMapper.MapToViewModel(eventFromStore);
-            if (Event == null)
+            if (eventFromStore == null)
             {
                 return RedirectToPage("./NotFound");
             }
+            
+            Event = EventMapper.MapToViewModel(eventFromStore);
             return Page();
         }
 
         public IActionResult OnPost(int eventId)
         {            
             _eventStore.Remove(eventId);
+
             TempData["Message"] = "Event was deleted";
             return RedirectToPage("./Events");
         }

@@ -8,7 +8,7 @@
 
 <form method="post">
 
-    <input type="hidden" asp-for="User.UserId" />
+    @* <input type="hidden" asp-for="User.UserId" /> *@
 
     <div class="from-group">
         <label asp-for="User.Login">Login name</label>
@@ -26,9 +26,9 @@
         <span class="text-danger" asp-validation-for="User.Name"></span>
     </div>
     <div class="from-group">
-        <label asp-for="User.Surename">Last Name</label>
-        <input asp-for="User.Surename" class="form-control" />
-        <span class="text-danger" asp-validation-for="User.Surename"></span>
+        <label asp-for="User.LastName">Last Name</label>
+        <input asp-for="User.LastName" class="form-control" />
+        <span class="text-danger" asp-validation-for="User.LastName"></span>
     </div>
     <div class="from-group">
         <label asp-for="User.Phone">Phone number</label>

@@ -14,14 +14,14 @@
 <form method="post">
 
     <div class="from-group">
-        <label asp-for="user.Login">Login name</label>
-        <input asp-for="user.Login" class="form-control" />
-        <span class="text-danger" asp-validation-for="user.Login"></span>
+        <label asp-for="UserDetails.Login">Login name</label>
+        <input asp-for="UserDetails.Login" class="form-control" />
+        <span class="text-danger" asp-validation-for="UserDetails.Login"></span>
     </div>
     <div class="from-group">
-        <label asp-for="user.Password">Password</label>
-        <input type="password" asp-for="user.Password" class="form-control" />
-        <span class="text-danger" asp-validation-for="user.Password"></span>
+        <label asp-for="UserDetails.Password">Password</label>
+        <input type="password" asp-for="UserDetails.Password" class="form-control" />
+        <span class="text-danger" asp-validation-for="UserDetails.Password"></span>
     </div>
     <br>
     <button type="submit" class="btn btn-primary">Login</button>    

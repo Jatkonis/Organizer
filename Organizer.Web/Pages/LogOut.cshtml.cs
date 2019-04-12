@@ -7,16 +7,16 @@ namespace Organizer.Web.Pages
 {
     public class LogOutModel : PageModel
     {
-        private readonly IUserLoginStatus _userLoginStatus;
+        private readonly IUserLoginStatusService _userLoginStatusService;
 
-        public LogOutModel(IUserLoginStatus userLoginStatus)
+        public LogOutModel(IUserLoginStatusService userLoginStatusService)
         {
-            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus));
+            _userLoginStatusService = userLoginStatusService ?? throw new ArgumentNullException(nameof(userLoginStatusService));
         }
 
         public IActionResult OnPost()
         {
-            _userLoginStatus.LogOut();
+            _userLoginStatusService.LogOut();
             return RedirectToPage("./Index");
         }
     }

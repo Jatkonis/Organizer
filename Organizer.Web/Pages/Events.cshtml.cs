@@ -20,25 +20,23 @@ namespace Organizer.Web.Pages
         public string SearchTerm { get; set; } = string.Empty;
 
         private readonly IEventStore _eventStore;
-        private readonly IUserLoginStatus _userLoginStatus;
+        private readonly IUserLoginStatusService _userLoginStatusService;
 
-        public EventsModel(IEventStore eventStore, IUserLoginStatus userLoginStatus)
+        public EventsModel(IEventStore eventStore, IUserLoginStatusService userLoginStatusService)
         {
             _eventStore = eventStore ?? throw new ArgumentNullException(nameof(eventStore)); ;
-            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus)); ;
+            _userLoginStatusService = userLoginStatusService ?? throw new ArgumentNullException(nameof(userLoginStatusService)); ;
         }
 
         public void OnGet()
         {
-            int userId = _userLoginStatus.GetLogedInUserId();
-            var eventsFromStore = _eventStore.GetEventByDescription(SearchTerm);
-            var sortedEventsById = eventsFromStore.Where(x => x.UserId == userId);          
+            var userId = _userLoginStatusService.GetLoggedInUserId();
+            var filteredEventsById = _eventStore.GetByDescriptionForUser(SearchTerm, userId);
 
-            var result = new List<EventViewModel>();
-            foreach (var @event in sortedEventsById)
-            {
-                result.Add(EventMapper.MapToViewModel(@event));
-            }
+            var result = filteredEventsById
+                .Select(@event => EventMapper.MapToViewModel(@event))
+                .ToList();
+
             Events = result;
         }
     }

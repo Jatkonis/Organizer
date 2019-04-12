@@ -1,44 +1,43 @@
 ﻿using Organizer.Core.Models;
 using Organizer.Core.Services;
-using System;
-using System.Linq;
+using Organizer.Core.Services.Implementation;
 using Xunit;
 
-namespace Organizer.Core.UnitTests
+namespace Organizer.Core.UnitTests.Services
 {
     public class UserLoginStatusTests
     {
-        private UserLoginStatus _sut;
+        private UserLoginStatusService _sut;
        //private User user;
 
         public UserLoginStatusTests()
         {
             //User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", Surename = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
-            _sut = new UserLoginStatus();
+            _sut = new UserLoginStatusService();
         }
 
         [Fact]
         public void Given_UserData_When_ChangeLoginStatus_Then_UserIDSaved()
         {
             //Arrage
-            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", Surename = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
+            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", LastName = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
 
             //Act
-            _sut.SetLogedInUser(user);
+            _sut.SetLoggedInUser(user);
 
             //Assert
-            Assert.Equal(5, _sut.GetLogedInUserId());
+            Assert.Equal(5, _sut.GetLoggedInUserId());
         }
 
         [Fact]
         public void When_AskedForLogedInUser_Then_UserIDReturn()
         {
             //Arrage
-            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", Surename = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
+            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", LastName = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
 
             //Act
-            _sut.SetLogedInUser(user);
-            int result = _sut.GetLogedInUserId();
+            _sut.SetLoggedInUser(user);
+            int result = _sut.GetLoggedInUserId();
 
             //Assert
             Assert.Equal(5, result);
@@ -48,13 +47,13 @@ namespace Organizer.Core.UnitTests
         public void When_CallLogOutMethonkedForLogedInUser_Then_UserIDEqualToZero()
         {
             //Arrage
-            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", Surename = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
+            User user = new User() { Login = "Paulius", Password = "123456", Name = "Paulius", LastName = "Pavarde", Email = "paulius@gmail.com", Phone = "75111", UserId = 5 };
 
             //Act
             _sut.LogOut();
 
             //Assert
-            Assert.Equal(0, _sut.GetLogedInUserId());
+            Assert.Equal(0, _sut.GetLoggedInUserId());
         }
     }
 }

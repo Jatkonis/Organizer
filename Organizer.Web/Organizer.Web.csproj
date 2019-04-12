@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Organizer.Core\Organizer.Core.csproj" />
+    <ProjectReference Include="..\Organizer.Data\Organizer.Data.csproj" />
   </ItemGroup>
 
 </Project>

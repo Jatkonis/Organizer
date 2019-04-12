@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Organizer.Core.Models;
 using Organizer.Core.Services;
 using Organizer.Web.Mappers;
 using Organizer.Web.ViewModels;
@@ -13,27 +12,28 @@ namespace Organizer.Web.Pages
         [BindProperty]
         public new UserViewModel User { get; set; }
 
-        private readonly IUserRepositories _userRepositories;
-        private readonly IUserLoginStatus _userLoginStatus;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserLoginStatusService _userLoginStatusService;
 
-        public SignUpModel(IUserRepositories userRepositories, IUserLoginStatus userLoginStatus)
+        public SignUpModel(IUserRepository userRepository, IUserLoginStatusService userLoginStatusService)
         {
-            _userRepositories = userRepositories ?? throw new ArgumentNullException(nameof(userRepositories)); ;
-            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus)); ;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository)); ;
+            _userLoginStatusService = userLoginStatusService ?? throw new ArgumentNullException(nameof(userLoginStatusService)); ;
         }
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
-            }            
-            User userNoViewModel = UserMapper.MapFromViewModelUser(User);
-            _userRepositories.AddUser(userNoViewModel);
-            _userLoginStatus.SetLogedInUser(userNoViewModel);
+            }
+
+            var userNoViewModel = UserMapper.MapFromViewModelUser(User);
+            _userRepository.AddUser(userNoViewModel);
+            _userLoginStatusService.SetLoggedInUser(userNoViewModel);
 
             TempData["Message"] = $"Welcome to Organizer {userNoViewModel.Name}! Create your first Event!";
-            return RedirectToPage("./Events");            
+            return RedirectToPage("./Events");
         }
     }
 }

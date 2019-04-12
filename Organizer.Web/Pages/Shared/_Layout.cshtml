@@ -1,12 +1,12 @@
 ﻿@using Organizer.Core.Services
-@inject IUserLoginStatus userLoginStatus
+@inject IUserLoginStatusService UserLoginStatusService
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OrganizerJson</title>
+    <title>@ViewData["Title"] - Organizer</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -29,10 +29,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-page="/Index" class="navbar-brand">OrganizerJson</a>
+                <a asp-page="/Index" class="navbar-brand">Organizer</a>
             </div>
             <div class="navbar-collapse collapse">
-                @if (userLoginStatus.GetLogedInUserId() == 0)
+                @if (UserLoginStatusService.GetLoggedInUserId() == 0)
                 {
                     <ul class="nav navbar-nav navbar-right">
                         <li><a class="glyphicon glyphicon-user" asp-page="/Signup">SignUp</a></li>
@@ -58,7 +58,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - OrganizerJson</p>
+            <p>&copy; 2019 - Organizer</p>
         </footer>
     </div>
 

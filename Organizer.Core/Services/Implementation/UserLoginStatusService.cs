@@ -1,17 +1,17 @@
 ﻿using Organizer.Core.Models;
 
-namespace Organizer.Core.Services
+namespace Organizer.Core.Services.Implementation
 {
-    public class UserLoginStatus : IUserLoginStatus
+    public class UserLoginStatusService : IUserLoginStatusService
     {        
         private int UserId { get; set; }
 
-        public void SetLogedInUser(User user)
+        public void SetLoggedInUser(User user)
         {
             UserId = user.UserId; 
         }
 
-        public int GetLogedInUserId()
+        public int GetLoggedInUserId()
         {   
             return UserId;
         }

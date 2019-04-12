@@ -9,29 +9,33 @@ namespace Organizer.Web.Pages
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public User user { get; set; }
+        public User UserDetails { get; set; }
 
         [TempData]
         public string Message { get; set; }
 
-        private readonly IUserAuthentication _userAuthentication;
-        private readonly IUserLoginStatus _userLoginStatus;
+        private readonly IUserAuthenticationService _userAuthenticationService;
 
-        public LoginModel(IUserAuthentication userAuthentication, IUserLoginStatus userLoginStatus)
+        public LoginModel(IUserAuthenticationService userAuthenticationService)
         {
-            _userAuthentication = userAuthentication ?? throw new ArgumentNullException(nameof(userAuthentication)); ;
-            _userLoginStatus = userLoginStatus ?? throw new ArgumentNullException(nameof(userLoginStatus)); ;
+            _userAuthenticationService = userAuthenticationService ?? throw new ArgumentNullException(nameof(userAuthenticationService));
         }
 
         public IActionResult OnPost()
         {
-            var logedInUser = _userAuthentication.GetUser(user.Login, user.Password);
-            if (logedInUser == null)
+            if (UserDetails.Login == null || UserDetails.Password == null) 
+            {
+                return RedirectToPage("./WrongLogins");
+            }
+
+            var loggedUser = _userAuthenticationService.LoginUser(UserDetails.Login, UserDetails.Password);
+
+            if (loggedUser == null)
             {                
                 return RedirectToPage("./WrongLogins");
             }
-            _userLoginStatus.SetLogedInUser(logedInUser);
-            TempData["Message"] = $"Welcome to Organizer {logedInUser.Name}!";
+
+            TempData["Message"] = $"Welcome to Organizer {loggedUser.Name}!";
             return RedirectToPage("./Events");              
         }       
     }
